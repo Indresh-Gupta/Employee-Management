@@ -14,7 +14,7 @@ const app = express();
 // Middlewares
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
+    origin: "https://employee-managementfrontend.onrender.com/", // frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
   })
