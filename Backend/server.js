@@ -12,13 +12,17 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(
-  cors({
-    origin: "https://employee-managementfrontend.onrender.com/", // frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://employee-managementfrontend.onrender.com/", // frontend URL
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true
+//   })
+// );
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 app.use(express.json());
 
 // Serve uploaded image
