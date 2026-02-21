@@ -76,6 +76,64 @@ tbody tr:hover {
   color: red;
 }
 
+.image-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.image-modal {
+  position: relative;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  width: auto;
+  max-width: 450px;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.image-modal img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Close button top-right */
+.image-modal button {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Smooth popup animation */
+@keyframes fadeIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 @media (max-width: 768px) {
 
   table {
@@ -83,3 +141,8 @@ tbody tr:hover {
   }
 
 }
+
+.image-modal {
+  animation: popup 0.3s ease;
+}
+

@@ -48,10 +48,12 @@ exports.updateEmployee = async (req, res) => {
     ...req.body
   };
 
+  // if (req.file) {
+  //   updateData.photo = req.file.filename;
+  // }
   if (req.file) {
-    updateData.photo = req.file.filename;
-  }
-
+      employee.photo = req.file.filename;
+    }
   const employee = await Employee.findByIdAndUpdate(
     req.params.id,
     updateData,

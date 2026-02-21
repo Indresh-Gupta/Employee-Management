@@ -3,6 +3,7 @@ import "./EmployeeTable.css";
 
 const EmployeeTable = ({ employees, onEdit, onDelete }) => {
   const [activeMenu, setActiveMenu] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   return (
     <div className="table-container">
@@ -24,13 +25,21 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
         <tbody>
           {employees.map((emp) => (
             <tr key={emp._id}>
-              <td>
-                <img
-                  src={`http://localhost:8080/${emp.photo}`}
-                  alt="profile"
-                  className="employee-photo"
-                />
-              </td>
+            <td>
+  {emp.photo ? (
+    <i
+      className="fa-solid fa-paperclip"
+      style={{ cursor: "pointer", fontSize: "18px" }}
+      onClick={() =>
+        setPreviewImage(
+          `http://localhost:8080/uploads/${emp.photo}`
+        )
+      }
+    ></i>
+  ) : (
+    "No Image"
+  )}
+</td>
 
               <td>{emp.fullName}</td>
               <td>{emp.email}</td>
@@ -47,7 +56,7 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
                     setActiveMenu(activeMenu === emp._id ? null : emp._id)
                   }
                 >
-                  ⋮
+                <i className="fa-solid fa-ellipsis-vertical"></i>
                 </button>
 
                 {activeMenu === emp._id && (
@@ -64,6 +73,14 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
           ))}
         </tbody>
       </table>
+      {previewImage && (
+  <div className="image-modal-overlay">
+    <div className="image-modal">
+      <img src={previewImage} alt="Preview" />
+      <button onClick={() => setPreviewImage(null)}><i className="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+)}
     </div>
   );
 };

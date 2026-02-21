@@ -28,10 +28,14 @@ app.use(express.json());
 // Serve uploaded image
 
 const uploadDir = path.join(__dirname, "uploads");
+console.log("UploadDir:", uploadDir);
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
+
+app.use("/uploads", express.static(uploadDir));
+
 
 // Routes
 app.use("/api/auth", require("./Routes/authRoutes"));

@@ -25,12 +25,26 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchEmployees();
-  }, []);
+  }, [filters]);
 
+
+  useEffect(() => {
+  const delay = setTimeout(() => {
+    setFilters(prev => ({
+      ...prev,
+      search: searchInput
+    }));
+  }, 300);
+
+  return () => clearTimeout(delay);
+}, [searchInput]);
   // 🔥 Search Button Click
-  const handleSearch = () => {
-    setFilters({ ...filters, search: searchInput });
-  };
+ const handleSearch = () => {
+  setFilters(prev => ({
+    ...prev,
+    search: searchInput
+  }));
+};
 
   return (
     <div>
@@ -48,18 +62,21 @@ const Dashboard = () => {
             className="search-input"
           />
 
-          <button className="search-btn" onClick={handleSearch}>
+          {/* <button className="search-btn" onClick={handleSearch}>
             Search
-          </button>
+          </button> */}
         </div>
 
         {/* Create Button */}
         <button 
-          className="create-btn"
-          onClick={() => setShowModal(true)}
-        >
-          + Create Employee
-        </button>
+  className="create-btn"
+  onClick={() => {
+    setSelectedEmployee(null);  // 🔥 VERY IMPORTANT
+    setShowModal(true);
+  }}
+>
+  + Create Employee
+</button>
 
       </div>
 

@@ -1,12 +1,13 @@
 import { useState, useContext } from "react";
 import API from "../Api/axios";
 import { AuthContext } from "../Context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -18,26 +19,55 @@ const Login = () => {
   };
 
   return (
-    <div className="login">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          required
-          onChange={(e) => setForm({...form, email: e.target.value})}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          required
-          onChange={(e) => setForm({...form, password: e.target.value})}
-        />
-        <button type="submit">Login</button>
-      </form>
-      <p style={{ marginTop: "15px" }}>
-  Don't have an account? <Link to="/signup">Signup</Link>
-</p>
+    <div className="login-wrapper">
+      <div className="login-card">
+        <h1 className="logo">IDMS</h1>
+        <p className="subtitle">Welcome to HR Admin Panel</p>
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Enter Email"
+              required
+              onChange={(e) =>
+                setForm({ ...form, email: e.target.value })
+              }
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter Password"
+              required
+              onChange={(e) =>
+                setForm({ ...form, password: e.target.value })
+              }
+            />
+          </div>
+
+          <div className="options">
+            <label>
+              <input
+                type="checkbox"
+                onChange={() => setShowPassword(!showPassword)}
+              />
+              Show Password
+            </label>
+          </div>
+
+          <button className="login-btn" type="submit">
+            Login
+          </button>
+        </form>
+
+        <p className="signup-text">
+          Don't have an account? <Link to="/signup">Signup</Link>
+        </p>
+      </div>
     </div>
   );
 };

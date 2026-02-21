@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import API from "../Api/axios";
 import "./EmployeeModal.css";
 
-const EmployeeModal = ({ close, refresh }) => {
+const EmployeeModal = ({employee, close, refresh }) => {
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -13,6 +13,32 @@ const EmployeeModal = ({ close, refresh }) => {
     department: "",
     designation: ""
   });
+  
+  useEffect(() => {
+  if (employee) {
+    setFormData({
+      fullName: employee.fullName || "",
+      email: employee.email || "",
+      phone: employee.phone || "",
+      gender: employee.gender || "",
+      dob: employee.dob ? employee.dob.substring(0, 10) : "",
+      department: employee.department || "",
+      designation: employee.designation || ""
+    });
+  } else {
+    // 🔥 Reset form when creating new employee
+    setFormData({
+      fullName: "",
+      email: "",
+      phone: "",
+      gender: "",
+      dob: "",
+      department: "",
+      designation: ""
+    });
+    setPhoto(null); // 🔥 VERY IMPORTANT
+  }
+}, [employee]);
 
   const [photo, setPhoto] = useState(null);
 
@@ -33,19 +59,28 @@ const EmployeeModal = ({ close, refresh }) => {
         data.append(key, formData[key]);
       });
 
-      if (photo) {
-        data.append("photo", photo);
-      }
+      // if (photo) {
+      //   data.append("photo", photo);
+      // }
 
-      await API.post("/employees", data);
+      if (photo instanceof File) {
+  data.append("photo", photo);
+}
 
-      alert("Employee Created Successfully");
+     if (employee && employee._id) {
+  await API.put(`/employees/${employee._id}`, data);
+  alert("Employee Updated Successfully");
+} else {
+  await API.post("/employees", data);
+  alert("Employee Created Successfully");
+}
       refresh();
+      setPhoto(null);
       close();
 
     } catch (error) {
       console.log(error.response?.data || error.message);
-      alert("Error Creating Employee");
+     alert(employee ? "Error Updating Employee" : "Error Creating Employee");
     }
   };
 
@@ -54,7 +89,7 @@ const EmployeeModal = ({ close, refresh }) => {
       <div className="modal-box">
 
         <div className="modal-header">
-          <h2>Create Employee</h2>
+          <h2>{employee ? "Update Employee" : "Create Employee"}</h2>
           <button onClick={close}>✕</button>
         </div>
 
@@ -158,7 +193,7 @@ const EmployeeModal = ({ close, refresh }) => {
 
           <div className="modal-footer">
             <button type="submit" className="save-btn">
-              Save
+            {employee ? "Update" : "Save"}
             </button>
           </div>
 
