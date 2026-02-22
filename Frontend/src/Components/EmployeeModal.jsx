@@ -90,7 +90,7 @@ const EmployeeModal = ({employee, close, refresh }) => {
 
         <div className="modal-header">
           <h2>{employee ? "Update Employee" : "Create Employee"}</h2>
-          <button onClick={close}>✕</button>
+          <button onClick={close}><i className="fa-solid fa-xmark"></i></button>
         </div>
 
         <form onSubmit={handleSubmit}>

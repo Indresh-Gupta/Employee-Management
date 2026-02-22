@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./EmployeeTable.css";
+import API from "../Api/axios";
 
 const EmployeeTable = ({ employees, onEdit, onDelete }) => {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -32,7 +33,7 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
       style={{ cursor: "pointer", fontSize: "18px" }}
       onClick={() =>
         setPreviewImage(
-          `http://localhost:8080/uploads/${emp.photo}`
+          `https://employee-management-frontend-wo1t.onrender.com/uploads/${emp.photo}`
         )
       }
     ></i>
